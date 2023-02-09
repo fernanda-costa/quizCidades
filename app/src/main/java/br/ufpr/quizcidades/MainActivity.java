@@ -17,8 +17,12 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    EditText editTextAnswer;
+    TextView answerResultTextView;
+
     public static final String IMAGE_BASE_URL = "http://31.220.51.31/ufpr/cidades/";
     public static final String NUMERO_ACERTOS = "NUMERO_ACERTOS";
+    public static final int NUMERO_TENTATIVAS = 4;
 
     Map<Integer, String> cities;
     Map<Integer, String> randomCities;
@@ -37,17 +41,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        answerResultTextView = findViewById(R.id.answerResultTextView);
+        editTextAnswer = findViewById(R.id.editTextTentativa);
+
         cities = initializeCities();
         randomCities = getRandomCities();
         keys = new ArrayList<Integer>( randomCities.keySet());
 
         getRandomCity(keys.get(0));
-        TextView answerResultTextView = findViewById(R.id.answerResultTextView);
-        answerResultTextView.setText(city);
     }
 
     public void checkAnswer(View view) {
-        EditText editTextAnswer = findViewById(R.id.editTextTentativa);
         Button checkButton = findViewById(R.id.checkButton);
         answered = !answered;
         if(answered) {
@@ -70,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAnswer() {
-        EditText editTextAnswer = findViewById(R.id.editTextTentativa);
-        TextView answerResultTextView = findViewById(R.id.answerResultTextView);
         String answer = editTextAnswer.getText().toString();
-
         boolean acertou = answer.toLowerCase().equals(city.toLowerCase());
 
         if(acertou) {
@@ -98,20 +99,13 @@ public class MainActivity extends AppCompatActivity {
             showFinalResult();
         } else {
             getRandomCity(keys.get(respondido));
-            EditText editTextAnswer = findViewById(R.id.editTextTentativa);
             editTextAnswer.setText("");
-            TextView answerResultTextView = findViewById(R.id.answerResultTextView);
-            answerResultTextView.setText(city);
         }
-    }
-
-    private void getCityImage() {
-
     }
 
     private Map<Integer, String> getRandomCities() {
         randomCities = new HashMap<>();
-       while(randomCities.size() != 4) {
+       while(randomCities.size() != NUMERO_TENTATIVAS) {
             int randomIndex = (int) Math.floor(Math.random() * 10) + 1;
             randomCities.put(randomIndex, cities.get(randomIndex));
         }
