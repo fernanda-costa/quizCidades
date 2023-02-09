@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             editTextAnswer.setVisibility(View.VISIBLE);
             checkButton.setText("Corrigir");
+            getRandomCity(keys.get(respondido));
+            answerResultTextView.setText("");
         }
     }
 
@@ -98,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         if(respondido == 4) {
             showFinalResult();
         } else {
-            getRandomCity(keys.get(respondido));
             editTextAnswer.setText("");
         }
     }
